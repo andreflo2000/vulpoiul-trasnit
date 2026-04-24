@@ -1,0 +1,16 @@
+{
+  "name": "Vulpoiul Trăsnit",
+  "short_name": "VulpoiulTrasnit",
+  "description": "Joc tip Akinator cu Gicu, vulpoiul trăsnit prins la furat găini!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2a1b11",
+  "theme_color": "#2a1b11",
+  "orientation": "portrait-primary",
+  "lang": "ro",
+  "icons": [
+    { "src": "logo_gicu.png.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["games", "entertainment", "education"],
+  "screenshots": []
+}

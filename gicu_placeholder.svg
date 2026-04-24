@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img" aria-label="Gicu, vulpoi în coteț (placeholder)">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b120c"/>
+      <stop offset="1" stop-color="#0f0a07"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="55%" cy="35%" r="60%">
+      <stop offset="0" stop-color="#ffb84d" stop-opacity=".25"/>
+      <stop offset=".55" stop-color="#fb7185" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="900" height="700" rx="56" fill="url(#bg)"/>
+  <rect x="0" y="0" width="900" height="700" rx="56" fill="url(#glow)"/>
+
+  <!-- coop slats -->
+  <g opacity=".22">
+    <rect x="70" y="60" width="18" height="580" fill="#fff"/>
+    <rect x="140" y="60" width="12" height="580" fill="#fff"/>
+    <rect x="220" y="60" width="18" height="580" fill="#fff"/>
+    <rect x="300" y="60" width="12" height="580" fill="#fff"/>
+    <rect x="380" y="60" width="18" height="580" fill="#fff"/>
+    <rect x="460" y="60" width="12" height="580" fill="#fff"/>
+    <rect x="540" y="60" width="18" height="580" fill="#fff"/>
+    <rect x="620" y="60" width="12" height="580" fill="#fff"/>
+    <rect x="700" y="60" width="18" height="580" fill="#fff"/>
+    <rect x="780" y="60" width="12" height="580" fill="#fff"/>
+  </g>
+
+  <!-- straw -->
+  <g opacity=".35">
+    <path d="M110 585c90-40 210-58 338-42 120 14 216 54 320 20" fill="none" stroke="#d3b26c" stroke-width="10" stroke-linecap="round"/>
+    <path d="M120 625c120-46 244-60 372-32 108 24 186 62 290 30" fill="none" stroke="#b89552" stroke-width="8" stroke-linecap="round"/>
+    <path d="M145 560c110-30 240-40 370-18 86 14 150 38 238 20" fill="none" stroke="#d3b26c" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Gicu (stylized fox) -->
+  <g filter="url(#shadow)">
+    <!-- tail -->
+    <path d="M640 500c70 18 132-14 148-56 14-38-14-78-64-84-64-8-114 44-106 90 6 34 10 42 22 50z" fill="#e47a2c"/>
+    <path d="M720 370c-34 6-58 34-52 58 6 26 42 38 68 20 30-22 18-84-16-78z" fill="#f3d9bf" opacity=".85"/>
+
+    <!-- body -->
+    <ellipse cx="445" cy="455" rx="175" ry="170" fill="#e47a2c"/>
+    <ellipse cx="445" cy="495" rx="120" ry="120" fill="#f3d9bf"/>
+
+    <!-- fancy vest -->
+    <path d="M330 410c32-36 74-56 115-56s82 20 114 56c-10 26-26 54-38 70-18 26-44 46-76 52-32-6-58-26-76-52-12-16-28-44-39-70z" fill="#1b2230" opacity=".9"/>
+    <path d="M445 356c-18 34-28 70-30 108 10 10 20 18 30 22 10-4 20-12 30-22-2-38-12-74-30-108z" fill="#0f141f" opacity=".9"/>
+
+    <!-- head -->
+    <path d="M445 200c110 0 190 78 190 170 0 92-80 170-190 170s-190-78-190-170c0-92 80-170 190-170z" fill="#e47a2c"/>
+    <path d="M445 260c78 0 136 56 136 120 0 64-58 120-136 120s-136-56-136-120c0-64 58-120 136-120z" fill="#f3d9bf"/>
+
+    <!-- ears -->
+    <path d="M310 250c-28-80 10-140 70-160 30 40 36 92 10 140-22 38-50 44-80 20z" fill="#e47a2c"/>
+    <path d="M580 250c28-80-10-140-70-160-30 40-36 92-10 140 22 38 50 44 80 20z" fill="#e47a2c"/>
+    <path d="M333 223c-16-48 4-84 40-96 16 26 18 56 6 84-10 22-26 26-46 12z" fill="#fb7185" opacity=".65"/>
+    <path d="M567 223c16-48-4-84-40-96-16 26-18 56-6 84 10 22 26 26 46 12z" fill="#fb7185" opacity=".65"/>
+
+    <!-- glasses -->
+    <g opacity=".92">
+      <rect x="315" y="315" width="150" height="95" rx="26" fill="none" stroke="#0c0b0a" stroke-width="10"/>
+      <rect x="435" y="315" width="150" height="95" rx="26" fill="none" stroke="#0c0b0a" stroke-width="10"/>
+      <path d="M465 360h-30" stroke="#0c0b0a" stroke-width="10" stroke-linecap="round"/>
+    </g>
+
+    <!-- eyes -->
+    <circle cx="392" cy="360" r="14" fill="#0b0a09"/>
+    <circle cx="508" cy="360" r="14" fill="#0b0a09"/>
+    <circle cx="386" cy="354" r="4" fill="#fff" opacity=".75"/>
+    <circle cx="502" cy="354" r="4" fill="#fff" opacity=".75"/>
+
+    <!-- nose + mouth -->
+    <path d="M445 405c18 0 32 14 32 26 0 16-16 28-32 28s-32-12-32-28c0-12 14-26 32-26z" fill="#1a1411"/>
+    <path d="M405 468c22 18 48 26 80 0" fill="none" stroke="#1a1411" stroke-width="10" stroke-linecap="round"/>
+
+    <!-- chicken coop hint: tiny feather -->
+    <path d="M210 150c40 16 54 48 30 74-18 20-58 10-72-18-14-28 4-64 42-56z" fill="#fff" opacity=".18"/>
+  </g>
+
+  <!-- title text -->
+  <g opacity=".92">
+    <text x="50%" y="650" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="42" fill="#f6efe7" letter-spacing="6">
+      GICU
+    </text>
+    <text x="50%" y="682" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#d7c6b4" letter-spacing="3">
+      placeholder ilustrat (SVG)
+    </text>
+  </g>
+</svg>

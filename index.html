@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vulpoiul Trăsnit — Gicu Ghicește Tot</title>
+  <meta name="description" content="Joc tip Akinator cu Gicu, vulpoiul trăsnit prins la furat găini. Ghicește personaje în 5 limbi!" />
+  <meta name="theme-color" content="#2a1b11" />
+  <link rel="manifest" href="./manifest.json" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 1: SELECTIE LIMBA
+════════════════════════════════════════════════ -->
+<div id="screenLang" class="screen is-active">
+  <div class="screen-center">
+    <img class="logo-img" src="./logo_gicu.png.png" alt="Gicu" onerror="this.src='./gicu_placeholder.svg'" />
+    <h1 class="game-title">Vulpoiul Trăsnit</h1>
+    <p class="screen-subtitle" id="langTitle">Alege limba ta</p>
+    <div id="langCards" class="lang-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 2: SELECTIE CATEGORIE
+════════════════════════════════════════════════ -->
+<div id="screenCategory" class="screen">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title" id="topbarTitle">Vulpoiul Trăsnit</div>
+    </div>
+    <div class="energy">
+      <div class="energy__label">
+        <span id="energyLabel">Energie de Evadare</span>
+        <span class="energy__value" id="energyValue">100%</span>
+      </div>
+      <div class="energy__bar">
+        <div class="energy__fill" id="energyFill" style="width:100%"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="category-screen">
+    <div class="gicu-small">
+      <div class="fox-face-small">🦊</div>
+      <div class="gicu-bubble" id="categoryGicuBubble">Gândește-te la ceva și eu ghicesc! 😏</div>
+    </div>
+    <h2 class="screen-subtitle" id="categoryTitle">La ce te gândești?</h2>
+    <div id="categoryCards" class="category-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 3: JOC
+════════════════════════════════════════════════ -->
+<div id="screenGame" class="screen">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">Vulpoiul Trăsnit</div>
+    </div>
+    <div class="energy">
+      <div class="energy__label">
+        <span id="energyLabel2">Energie de Evadare</span>
+        <span class="energy__value" id="energyValue">100%</span>
+      </div>
+      <div class="energy__bar">
+        <div class="energy__fill" id="energyFill" style="width:100%"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <!-- Card intrebare -->
+    <section class="card">
+      <div class="question">
+        <div class="question__elegantLabel" id="questionLabel">Întrebarea 0 din 20</div>
+        <div class="question__elegant" id="elegantText">Gicu se pregătește să ghicească...</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--primary" id="btnYes"     type="button">DA</button>
+        <button class="btn"              id="btnNo"      type="button">NU</button>
+        <button class="btn"              id="btnUnknown" type="button">NU ȘTIU</button>
+        <button class="btn"              id="btnProbably"type="button">PROBABIL</button>
+      </div>
+
+      <div class="meta">
+        <button class="btn btn--ghost btn-new-game" type="button">↩ Joc Nou</button>
+        <button class="btn btn--ghost btn-leaderboard" type="button" id="btnLeaderboard">🏆 Clasament</button>
+      </div>
+    </section>
+
+    <!-- Gicu -->
+    <section class="gicu">
+      <div class="gicu__wrap">
+        <div class="reaction" id="reactionBubble" aria-live="polite">
+          <div class="reaction__text" id="reactionText">…</div>
+        </div>
+        <div class="fox-character" id="foxCharacter">
+          <div class="fox-face thinking" id="foxFace">🦊</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 4: REZULTAT
+════════════════════════════════════════════════ -->
+<div id="screenResult" class="screen">
+  <div class="result-screen">
+
+    <!-- Banner corect (ascuns initial) -->
+    <div id="resultCorrectBanner" class="result-banner result-banner--win" style="display:none">
+      <span class="result-banner__icon">🎉</span>
+      <span id="resultCorrectText">CORECT!</span>
+    </div>
+
+    <!-- Gicu + personaj ghicit -->
+    <div class="result-hero">
+      <div class="result-fox">🦊</div>
+      <div class="result-guess">
+        <p class="result-guess__label" id="resultGuessText">Mă gândesc că este...</p>
+        <h2 class="result-guess__name" id="resultCharName">—</h2>
+      </div>
+    </div>
+
+    <!-- Imaginea personajului -->
+    <div class="result-image-wrap">
+      <img id="resultCharImg" class="result-char-img" src="./gicu_placeholder.svg" alt="Personaj" />
+    </div>
+
+    <!-- Intrebare: am ghicit? -->
+    <p class="result-ask" id="resultWasRight">Am ghicit corect?</p>
+    <div class="result-confirm-btns">
+      <button class="btn btn--primary btn--big" id="btnYesGuess" type="button">DA, AI GHICIT! 🎉</button>
+      <button class="btn btn--danger  btn--big" id="btnNoGuess"  type="button">NU, AI GREȘIT! 😤</button>
+    </div>
+
+    <!-- Sectiune gresit (ascunsa initial) -->
+    <div id="resultWrongSection" style="display:none" class="result-wrong">
+      <p>Hmm, n-am ghicit... 😤</p>
+      <button class="btn btn--primary" id="btnGoLearn" type="button">🧠 Spune-mi la cine te-ai gândit!</button>
+    </div>
+
+    <!-- Scor + stele (ascuns initial) -->
+    <div id="resultScoreSection" style="display:none" class="result-score">
+      <div class="result-stars" id="resultStars">⭐⭐⭐</div>
+      <div class="result-q-used" id="resultQuestionsUsed">7 întrebări folosite</div>
+    </div>
+
+    <!-- Sectiune salvare nume (ascunsa initial) -->
+    <div id="resultNameSection" style="display:none" class="result-name-section">
+      <p>Introdu numele tău pentru clasament:</p>
+      <input type="text" id="playerNameInput" class="text-input" placeholder="Numele tău..." maxlength="20" />
+      <button class="btn btn--primary" id="btnSaveScore" type="button">SALVEAZĂ SCORUL</button>
+    </div>
+
+    <!-- Fapte educative -->
+    <div class="fact-panel">
+      <div class="fact-label" id="factLabel">💡 Știai că...?</div>
+      <div class="fact-text" id="resultFact"></div>
+    </div>
+
+    <!-- Actiuni finale -->
+    <div class="result-actions">
+      <button class="btn btn--primary btn-new-game" type="button">🔄 Joc Nou</button>
+      <button class="btn btn-share" type="button">📤 Împărtășește</button>
+      <button class="btn btn-leaderboard" type="button">🏆 Clasament</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 5: INVATARE
+════════════════════════════════════════════════ -->
+<div id="screenLearn" class="screen">
+  <div class="learn-screen">
+    <div class="learn-gicu">🦊😤</div>
+    <h2 class="learn-title">Gicu n-a ghicit... dar vrea să învețe!</h2>
+
+    <div class="learn-form">
+      <label class="learn-label">La cine te-ai gândit?</label>
+      <input type="text" id="learnInput" class="text-input" placeholder="Scrie numele..." maxlength="50" />
+
+      <label class="learn-label">
+        Scrie o întrebare care îl diferențiază de
+        <strong id="learnDiffFrom">—</strong>:
+      </label>
+      <input type="text" id="learnQuestionInput" class="text-input" placeholder="ex: Are aripi?" maxlength="100" />
+
+      <button class="btn btn--primary" id="btnLearnSave" type="button">🧠 SALVEAZĂ ȘI CONTINUĂ</button>
+    </div>
+
+    <div id="learnThanksMsg" style="display:none" class="learn-thanks">
+      <p>AM ÎNVĂȚAT CEVA NOU! 🧠🔥</p>
+      <p class="learn-thanks__sub">Gicu a notat cu laba stângă și a căzut de pe scaun. Dar a notat!</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ECRAN 6: LEADERBOARD
+════════════════════════════════════════════════ -->
+<div id="screenLeaderboard" class="screen">
+  <div class="leaderboard-screen">
+    <h2 class="leaderboard-title" id="leaderboardTitle">🏆 Top Ghicitori</h2>
+    <p id="leaderboardLoading" style="display:none;text-align:center">Se încarcă...</p>
+    <div id="leaderboardList" class="leaderboard-list"></div>
+    <button class="btn btn--ghost" id="btnLeaderboardBack" type="button">← Înapoi</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTURI
+════════════════════════════════════════════════ -->
+<script src="./config.js"></script>
+<script src="./data/translations.js"></script>
+<script src="./data/questions.js"></script>
+<script src="./data/characters.js"></script>
+<script src="./data/remarks.js"></script>
+<script src="./data/facts.js"></script>
+<script type="module" src="./script.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  }
+</script>
+
+</body>
+</html>
