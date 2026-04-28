@@ -127,10 +127,15 @@ const MOODS = {
 };
 
 function setMood(mood) {
-  const el = $("foxFace");
-  if (!el) return;
-  el.textContent = MOODS[mood] || "🦊";
-  el.className = "fox-face " + mood;
+  // Badge emoji in colt
+  const badge = $("foxFace");
+  if (badge) {
+    badge.textContent = MOODS[mood] || "🦊";
+    badge.className   = "fox-mood-badge " + mood;
+  }
+  // Efect CSS pe imaginea reala
+  const img = $("gicuImg");
+  if (img) img.className = `gicu-real-img mood-${mood}`;
 }
 
 function animateFox(mood = "thinking") {
@@ -917,7 +922,7 @@ function handleAnswer(type) {
   const moodMap      = { yes:"happy", no:"sad", unknown:"surprised", probably:"thinking" };
 
   animateFox(moodMap[type] || "thinking");
-  showRemark(type, 3000);
+  showRemark(type, 4500);
 
   state.scores = updateScores(state.scores, state.currentQuestion.id, val);
   state.asked.add(state.currentQuestion.id);
