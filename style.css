@@ -618,8 +618,21 @@ body{
   transform: translateY(-4px);
 }
 .lang-card:active { transform: scale(0.96); }
-.lang-flag { font-size: 36px; }
+.lang-flag-img {
+  width: 48px; height: 32px;
+  object-fit: cover; border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.4);
+  display: block;
+}
 .lang-name { font-size: 15px; font-weight: 600; }
+.gicu-avatar-fake {
+  width: 72px; height: 72px;
+  object-fit: cover; border-radius: 50%;
+  border: 3px solid rgba(255,80,80,.6);
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+  display: inline-block; vertical-align: middle;
+  animation: faceWiggle .45s ease-in-out infinite alternate;
+}
 
 /* ══════════════════════════════════════════════
    ECRAN CATEGORII
