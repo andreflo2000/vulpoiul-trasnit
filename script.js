@@ -777,17 +777,17 @@ function showScreen(id) {
 // ── Ecran: Selectie Limba (in screenIntro) ────────────────────
 function renderLangScreen() {
   const langs = [
-    { code:"ro", flag:"🇷🇴", name:"Română" },
-    { code:"en", flag:"🇬🇧", name:"English" },
-    { code:"fr", flag:"🇫🇷", name:"Français" },
-    { code:"es", flag:"🇪🇸", name:"Español" },
-    { code:"de", flag:"🇩🇪", name:"Deutsch" },
+    { code:"ro", flag:"https://flagcdn.com/w40/ro.png", name:"Română" },
+    { code:"en", flag:"https://flagcdn.com/w40/gb.png", name:"English" },
+    { code:"fr", flag:"https://flagcdn.com/w40/fr.png", name:"Français" },
+    { code:"es", flag:"https://flagcdn.com/w40/es.png", name:"Español" },
+    { code:"de", flag:"https://flagcdn.com/w40/de.png", name:"Deutsch" },
   ];
   const container = $("langCards");
   if (!container) return;
   container.innerHTML = langs.map(l => `
     <button class="lang-card" data-lang="${l.code}" type="button">
-      <span class="lang-flag">${l.flag}</span>
+      <img src="${l.flag}" class="lang-flag-img" alt="${l.name}" />
       <span class="lang-name">${l.name}</span>
     </button>
   `).join("");
@@ -1091,18 +1091,89 @@ async function renderLeaderboard() {
 
 // ── Traduceri dinamice ────────────────────────────────────────
 function applyTranslations() {
-  const map = {
-    "btnYes":      "btnYes",
-    "btnNo":       "btnNo",
-    "btnUnknown":  "btnUnknown",
-    "btnProbably": "btnProbably",
+  // Elemente cu ID direct
+  const byId = {
+    "btnYes":               "btnYes",
+    "btnNo":                "btnNo",
+    "btnUnknown":           "btnUnknown",
+    "btnProbably":          "btnProbably",
+    "btnYesGuess":          "btnYesGuess",
+    "btnNoGuess":           "btnNoGuess",
+    "btnSaveScore":         "btnSaveScore",
+    "btnGoLearn":           "btnGoLearn",
+    "btnLearnSave":         "btnLearnSave",
+    "btnLeaderboardBack":   "btnBack",
+    "btnHydrationContinue": "btnHydrationContinue",
+    "btnFakeGuessContinue": "btnFakeGuessContinue",
+    "leaderboardLoading":   "leaderboardLoading",
   };
-  for (const [id, key] of Object.entries(map)) {
+  for (const [id, key] of Object.entries(byId)) {
     const el = $(id);
     if (!el) continue;
     const txt = t(key);
     if (txt && txt !== key) el.textContent = txt;
   }
+
+  // Placeholdere
+  const placeholders = {
+    "learnInput":        "learnPlaceholder",
+    "learnQuestionInput":"learnQuestionPlaceholder",
+    "playerNameInput":   "namePlaceholder",
+  };
+  for (const [id, key] of Object.entries(placeholders)) {
+    const el = $(id);
+    if (el) el.placeholder = t(key);
+  }
+
+  // Elemente fără ID — prin querySelector
+  const q = sel => document.querySelector(sel);
+  const qAll = sel => document.querySelectorAll(sel);
+
+  const set = (sel, key) => { const el = q(sel); if (el) el.textContent = t(key); };
+  const setHTML = (sel, key) => { const el = q(sel); if (el) el.innerHTML = t(key); };
+
+  set("#screenCategory .screen-subtitle",     "selectCategory");
+  set(".fox-caption",                          "foxCaption");
+  set(".result-ask",                           "wasIRight");
+  set("#resultGuessText",                      "guessPrefix");
+  set("#resultWrongSection p",                 "wrongResultText");
+  set(".learn-title",                          "learnTitle");
+  set(".leaderboard-title",                    "leaderboardTitle");
+  set("#resultNameSection p",                  "enterName");
+  set("#learnThanksMsg p:first-child",         "learnThanks");
+  set(".learn-thanks__sub",                    "learnDesc");
+
+  // Banner corect
+  const banner = q("#resultCorrectBanner span:last-child");
+  if (banner) banner.textContent = t("correctBanner");
+
+  // Fact label
+  const factLabel = q(".fact-label");
+  if (factLabel) factLabel.textContent = "💡 " + t("didYouKnow");
+
+  // Hydration modal
+  const hydTitle = q("#modalHydration .modal-title");
+  if (hydTitle) hydTitle.textContent = t("hydrationTitle");
+  setHTML("#modalHydration .modal-subtitle", "hydrationSubtitle");
+
+  // Learn screen quote
+  const learnQuoteEl = q("#screenLearn > div > p[style]");
+  if (learnQuoteEl) learnQuoteEl.textContent = t("learnQuote");
+
+  // Learn labels (primul și al doilea)
+  const learnLabels = document.querySelectorAll(".learn-label");
+  if (learnLabels[0]) learnLabels[0].textContent = t("learnLabelChar");
+  if (learnLabels[1]) learnLabels[1].innerHTML = t("learnLabelQuestion") + ' <strong id="learnDiffFrom">—</strong>:';
+
+  // Energy labels pe ambele ecrane
+  qAll(".energy__label span:first-child").forEach(el => {
+    el.textContent = t("energy");
+  });
+
+  // Butoane repetate (new game, share, leaderboard)
+  qAll(".btn-new-game").forEach(b => b.textContent = "🔄 " + t("btnRestart"));
+  qAll(".btn-share").forEach(b => b.textContent = "📤 " + t("btnShare"));
+  qAll(".btn-leaderboard").forEach(b => b.textContent = "🏆 " + t("btnLeaderboard"));
 }
 
 // ── Reset ─────────────────────────────────────────────────────
