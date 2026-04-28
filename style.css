@@ -1015,8 +1015,16 @@ body{
 }
 
 .rapper-cap   { font-size: 50px; position: relative; top: 8px; }
-.rapper-fox   { font-size: 76px; line-height: 1; }
 .rapper-chain { font-size: 30px; position: relative; top: -8px; opacity: .85; }
+
+.gicu-intro-img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255,184,77,.6);
+  box-shadow: 0 8px 28px rgba(0,0,0,.55), 0 0 30px rgba(255,184,77,.2);
+}
 
 .intro-title {
   font-family: "Playfair Display", Georgia, serif;
@@ -1126,8 +1134,46 @@ body{
 .fox-character:active { transform: scale(0.97); }
 
 .rapper-cap-game   { font-size: 56px; position: relative; top: 10px; z-index: 2; }
-.fox-face          { font-size: 86px; line-height: 1; transition: filter .2s; }
 .rapper-chain-game { font-size: 32px; position: relative; top: -8px; }
+
+/* Imaginea reala Gicu in joc */
+.gicu-img-container {
+  position: relative;
+  display: inline-block;
+}
+.gicu-real-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255,184,77,.55);
+  box-shadow: 0 10px 36px rgba(0,0,0,.55), 0 0 40px rgba(255,184,77,.15);
+  transition: filter .3s ease, transform .3s ease;
+  display: block;
+}
+.gicu-real-img.mood-thinking  { animation: foxThink 1.2s ease-in-out infinite alternate; }
+.gicu-real-img.mood-happy     { filter: brightness(1.12) drop-shadow(0 0 18px gold); }
+.gicu-real-img.mood-sad       { filter: grayscale(.5) brightness(.85); transform: rotate(6deg); }
+.gicu-real-img.mood-surprised { animation: foxShake .35s ease; }
+.gicu-real-img.mood-laughing  { animation: foxShake .35s infinite; filter: brightness(1.08); }
+.gicu-real-img.mood-angry     { filter: drop-shadow(0 0 14px red) saturate(1.3); transform: rotate(-6deg); }
+
+/* Badge emoji de emotie (colt dreapta-jos) */
+.fox-mood-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 28px;
+  background: rgba(10,5,20,.7);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,184,77,.35);
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+}
 .fox-caption {
   font-size: 12px;
   color: var(--muted);
