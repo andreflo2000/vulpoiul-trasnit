@@ -14,6 +14,21 @@
 </head>
 <body>
 
+<!-- FUNDALUL PĂDURE MAGIC (fix, vizibil pe toate ecranele) -->
+<div class="forest-bg-fixed" aria-hidden="true">
+  <div class="fbg-moon">🌕</div>
+  <div class="fbg-stars">✦ ✧ ✦ ✧ ✦</div>
+  <div class="fbg-owl">🦉</div>
+  <div class="fbg-fireflies">✨ 💫 ✨ 🌟 ✨</div>
+  <div class="fbg-house">🏚️</div>
+  <div class="fbg-witch">🧙‍♀️</div>
+  <div class="fbg-cauldron">🪄</div>
+  <div class="fbg-trees-left">🌲🌳🌲</div>
+  <div class="fbg-trees-right">🌳🌲🌳</div>
+  <div class="fbg-mushrooms">🍄 🍄 🍄</div>
+  <div class="fbg-geese">🦢 🐓 🦢 🐔</div>
+</div>
+
 <!-- ══════════════════════════════════════════════
      ECRAN 0: POVESTEA LUI GICU (INTRO VRĂJITOARE)
 ════════════════════════════════════════════════ -->
@@ -21,7 +36,11 @@
   <div class="intro-forest">
     <div class="forest-stars">✦ ✧ ✦ ✧ ✦ ✧ ✦</div>
     <div class="witch-moon">🌕</div>
-    <div class="witch-tree">🌲🌲🌲</div>
+    <div class="witch-fireflies">✨ 💫 ✨ 🌟 ✨</div>
+    <div class="witch-house-scene">🌲🏚️🌳</div>
+    <div class="witch-herself">🧙‍♀️</div>
+    <div class="witch-tree">🌲🌳🌲🌴🌲🌳🌲</div>
+    <div class="forest-mushrooms">🍄 🍄 🍄</div>
   </div>
 
   <div class="intro-card">
@@ -76,7 +95,7 @@
     <div class="gicu-rapper-small">
       <div class="rapper-avatar">
         <div class="rapper-cap-sm">🧢</div>
-        <div class="rapper-fox-sm">🦊</div>
+        <div class="rapper-fox-sm"><img src="./gicu_real.png" class="gicu-avatar-sm" alt="Gicu" /></div>
         <div class="rapper-chain-sm">📿</div>
       </div>
       <div class="gicu-taunt" id="categoryTaunt">"Gândește-te la ceva. Dacă poți. Eu aștept, n-am încotro." 😒</div>
@@ -208,7 +227,7 @@
     <div class="result-hero">
       <div class="result-rapper">
         <div class="rapper-cap-res">🧢</div>
-        <div class="result-fox-emoji">🦊</div>
+        <img src="./gicu_real.png" class="gicu-avatar-result" alt="Gicu" />
         <div class="rapper-chain-res">📿</div>
       </div>
       <div class="result-guess">
@@ -261,7 +280,10 @@
 ════════════════════════════════════════════════ -->
 <div id="screenLearn" class="screen">
   <div class="learn-screen">
-    <div class="learn-gicu">🧢🦊😤📿</div>
+    <div class="learn-gicu">
+      <div class="learn-gicu-fox">🧢<img src="./gicu_real.png" class="gicu-avatar-learn" alt="Gicu" />😤📿</div>
+      <div class="learn-geese-laugh">🐓😂🦢🤣🐔</div>
+    </div>
     <h2 class="learn-title">Gicu' n-a ghicit... Gainile rad cu lacrimi.</h2>
     <p style="text-align:center;color:var(--muted)">"Nu-i nimic, am planuri mari. Deocamdată vreau să știu la cine te-ai gândit."</p>
 
