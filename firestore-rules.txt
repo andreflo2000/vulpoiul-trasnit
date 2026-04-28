@@ -1,0 +1,26 @@
+// ══════════════════════════════════════════════
+// REGULI FIRESTORE — Vulpoiul Trăsnit
+// Copiaza aceste reguli in Firebase Console:
+// Firestore → Rules → Edit rules → Publish
+// ══════════════════════════════════════════════
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Contor global (numarul de jocuri jucate spre 1.000.000)
+    match /counters/{docId} {
+      allow read, write: if true;
+    }
+
+    // Leaderboard — citire si scriere publica
+    match /leaderboard/{docId} {
+      allow read, write: if true;
+    }
+
+    // Coada de invatare — scriere publica (nu trebuie citita de utilizatori)
+    match /learn_queue/{docId} {
+      allow write: if true;
+    }
+  }
+}
