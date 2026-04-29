@@ -241,10 +241,17 @@ function informationGain(questionId, scores) {
 }
 
 function pickBestQuestion() {
-  const catQuestions = QUESTIONS.filter(q =>
-    (q.category === "all" || q.category === state.category) &&
-    !state.asked.has(q.id)
-  );
+  const catChars = CHARACTERS.filter(c => c.category === state.category);
+  const catQuestions = QUESTIONS.filter(q => {
+    if (q.category !== "all" && q.category !== state.category) return false;
+    if (state.asked.has(q.id)) return false;
+    if (q.category === "all") {
+      // Skip global questions where ALL characters in this category share the same value
+      const vals = catChars.map(c => c.attributes?.[q.id] ?? 0.5);
+      return vals.some(v => v !== vals[0]);
+    }
+    return true;
+  });
   if (!catQuestions.length) return null;
   let bestIG = -1, bestQ = null;
   for (const q of catQuestions) {
@@ -464,6 +471,18 @@ const GOOSE_TAUNTS = {
   ],
 };
 
+// ── Portrete haioase animale (la taunt) ──────────────────────
+const ANIMAL_PORTRAITS = [
+  { main:"🐔", acc:"🙃", ro:"Găina Ochii-Cruciș", en:"Cross-Eyed Hen",          fr:"La Poule Louche",          es:"La Gallina Bizca",          de:"Die Schielende Henne" },
+  { main:"🦢", acc:"💇", ro:"Gâsca cu Breton",    en:"Goose with Bangs",         fr:"L'Oie au Frange",          es:"El Ganso con Flequillo",    de:"Die Gans mit Pony" },
+  { main:"🐓", acc:"🪩", ro:"Cocoșul Chel",        en:"The Bald Rooster",         fr:"Le Coq Chauve",            es:"El Gallo Calvo",            de:"Der Kahle Hahn" },
+  { main:"🪿", acc:"😎", ro:"Gâsca cu Ochelari",   en:"Cool Goose",               fr:"L'Oie Cool",               es:"El Ganso Con Gafas",        de:"Die Coole Gans" },
+  { main:"🐔", acc:"🤣", ro:"Găina Non-Stop-Râs",  en:"Non-Stop Laughing Hen",    fr:"La Poule Rit Sans Arrêt",  es:"La Gallina que Ríe",        de:"Die Immer-Lachende Henne" },
+  { main:"🐓", acc:"👑", ro:"Cocoșul Rege",         en:"Rooster King",             fr:"Le Coq Roi",               es:"El Gallo Rey",              de:"Der Hahn König" },
+  { main:"🪿", acc:"🎩", ro:"Gâsca Magicianul",    en:"Magician Goose",           fr:"L'Oie Magicien",           es:"El Ganso Mago",             de:"Die Zauberer-Gans" },
+  { main:"🐔", acc:"💎", ro:"Găina Bogată",         en:"The Rich Hen",             fr:"La Poule Riche",           es:"La Gallina Rica",           de:"Die Reiche Henne" },
+];
+
 let _gooseTimerId = null;
 
 function startGooseTaunts() {
@@ -479,14 +498,20 @@ function stopGooseTaunts() {
 
 function showGooseTaunt() {
   if (!state.gameActive) return;
-  const pool  = GOOSE_TAUNTS[state.lang] || GOOSE_TAUNTS["ro"];
-  const taunt = pool[Math.floor(Math.random() * pool.length)];
-  const el    = $("gooseTaunt");
-  const text  = $("gooseTauntText");
+  const pool    = GOOSE_TAUNTS[state.lang] || GOOSE_TAUNTS["ro"];
+  const taunt   = pool[Math.floor(Math.random() * pool.length)];
+  const portrait = ANIMAL_PORTRAITS[Math.floor(Math.random() * ANIMAL_PORTRAITS.length)];
+  const el      = $("gooseTaunt");
+  const text    = $("gooseTauntText");
+  const portEl  = $("goosePortrait");
   if (!el || !text) return;
   text.textContent = taunt;
-  el.style.display = "block";
-  setTimeout(() => { if (el) el.style.display = "none"; }, 4500);
+  if (portEl) {
+    const name = portrait[state.lang] || portrait.ro;
+    portEl.innerHTML = `<div class="animal-portrait-img">${portrait.main}${portrait.acc}</div><div class="animal-portrait-name">${name}</div>`;
+  }
+  el.style.display = "flex";
+  setTimeout(() => { if (el) el.style.display = "none"; }, 5500);
 }
 
 // ── Pauza de Hidratare (dupa Q10) ────────────────────────────
@@ -807,7 +832,8 @@ function renderLangScreen() {
 function renderCategoryScreen() {
   const catOrder = [
     "animals","birds","athletes","professions","artists",
-    "cartoons","historical","fruits","vegetables","objects","superheroes"
+    "cartoons","historical","fruits","vegetables","objects","superheroes",
+    "anime","football","celebrities_ro"
   ];
   const container = $("categoryCards");
   if (!container) return;
