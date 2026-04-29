@@ -59,7 +59,8 @@ const TRANSLATIONS = {
       animals: "Animale", birds: "Păsări", athletes: "Sportivi",
       professions: "Profesii", artists: "Artiști", cartoons: "Desene Animate",
       historical: "Figuri Istorice", fruits: "Fructe", vegetables: "Legume",
-      objects: "Obiecte", superheroes: "Supereroi"
+      objects: "Obiecte", superheroes: "Supereroi",
+      anime: "Anime", football: "Fotbal", celebrities_ro: "Celebrități RO"
     }
   },
   en: {
@@ -122,7 +123,8 @@ const TRANSLATIONS = {
       animals: "Animals", birds: "Birds", athletes: "Athletes",
       professions: "Professions", artists: "Artists", cartoons: "Cartoons",
       historical: "Historical Figures", fruits: "Fruits", vegetables: "Vegetables",
-      objects: "Objects", superheroes: "Superheroes"
+      objects: "Objects", superheroes: "Superheroes",
+      anime: "Anime", football: "Football", celebrities_ro: "Romanian Celebrities"
     }
   },
   fr: {
@@ -185,7 +187,8 @@ const TRANSLATIONS = {
       animals: "Animaux", birds: "Oiseaux", athletes: "Sportifs",
       professions: "Professions", artists: "Artistes", cartoons: "Dessins Animés",
       historical: "Figures Historiques", fruits: "Fruits", vegetables: "Légumes",
-      objects: "Objets", superheroes: "Super-Héros"
+      objects: "Objets", superheroes: "Super-Héros",
+      anime: "Anime", football: "Football", celebrities_ro: "Célébrités RO"
     }
   },
   es: {
@@ -248,7 +251,8 @@ const TRANSLATIONS = {
       animals: "Animales", birds: "Pájaros", athletes: "Deportistas",
       professions: "Profesiones", artists: "Artistas", cartoons: "Dibujos Animados",
       historical: "Figuras Históricas", fruits: "Frutas", vegetables: "Verduras",
-      objects: "Objetos", superheroes: "Superhéroes"
+      objects: "Objetos", superheroes: "Superhéroes",
+      anime: "Anime", football: "Fútbol", celebrities_ro: "Famosos RO"
     }
   },
   de: {
@@ -311,21 +315,25 @@ const TRANSLATIONS = {
       animals: "Tiere", birds: "Vögel", athletes: "Sportler",
       professions: "Berufe", artists: "Künstler", cartoons: "Zeichentrick",
       historical: "Historische Persönlichkeiten", fruits: "Früchte", vegetables: "Gemüse",
-      objects: "Objekte", superheroes: "Superhelden"
+      objects: "Objekte", superheroes: "Superhelden",
+      anime: "Anime", football: "Fußball", celebrities_ro: "Berühmtheiten RO"
     }
   }
 };
 
 const CATEGORY_ICONS = {
-  animals:     "🐾",
-  birds:       "🐦",
-  athletes:    "⚽",
-  professions: "👷",
-  artists:     "🎤",
-  cartoons:    "🎨",
-  historical:  "🏛️",
-  fruits:      "🍎",
-  vegetables:  "🥕",
-  objects:     "📱",
-  superheroes: "🦸"
+  animals:        "🐾",
+  birds:          "🐦",
+  athletes:       "🏅",
+  professions:    "👷",
+  artists:        "🎤",
+  cartoons:       "🎨",
+  historical:     "🏛️",
+  fruits:         "🍎",
+  vegetables:     "🥕",
+  objects:        "📱",
+  superheroes:    "🦸",
+  anime:          "⛩️",
+  football:       "⚽",
+  celebrities_ro: "🇷🇴"
 };
