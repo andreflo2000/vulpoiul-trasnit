@@ -126,16 +126,27 @@ const MOODS = {
   surprised: "😮", laughing: "😂", angry: "😤"
 };
 
+const MOOD_IMAGES = {
+  thinking:  "gicu_ganditor.png",
+  happy:     "gicu_mandrie.png",
+  laughing:  "gicu_mandrie.png",
+  surprised: "gicu_uimire.png",
+  sad:       "gicu_frustrare.png",
+  angry:     "gicu_frustrare.png",
+};
+
 function setMood(mood) {
-  // Badge emoji in colt
   const badge = $("foxFace");
   if (badge) {
     badge.textContent = MOODS[mood] || "🦊";
     badge.className   = "fox-mood-badge " + mood;
   }
-  // Portret SVG expresiv
-  const svg = $("gicuSVG");
-  if (svg) svg.setAttribute("class", `gicu-portrait-svg mood-${mood}`);
+  const img = $("gicuMoodImg");
+  if (img) {
+    const newSrc = MOOD_IMAGES[mood] || "gicu_ganditor.png";
+    if (!img.src.endsWith(newSrc)) img.src = newSrc;
+    img.className = `gicu-mood-img mood-${mood}`;
+  }
 }
 
 function animateFox(mood = "thinking") {
