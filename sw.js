@@ -1,5 +1,5 @@
 // Service Worker — Vulpoiul Trasnit
-const CACHE = "vulpoi-v1";
+const CACHE = "vulpoi-v4";
 const ASSETS = [
   "/", "/index.html", "/style.css", "/script.js", "/config.js",
   "/manifest.json", "/gicu_placeholder.svg",
@@ -27,7 +27,21 @@ self.addEventListener("fetch", e => {
   }
   // Firebase — network only
   if (e.request.url.includes("firebase") || e.request.url.includes("firestore")) return;
-  // Restul — cache first
+
+  // JS, CSS, HTML — network first (ca să vezi mereu versiunea nouă)
+  const url = e.request.url;
+  if (url.endsWith(".js") || url.endsWith(".css") || url.endsWith(".html") || url.endsWith("/")) {
+    e.respondWith(
+      fetch(e.request).then(resp => {
+        const clone = resp.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return resp;
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Restul (imagini, sunete) — cache first
   e.respondWith(caches.match(e.request).then(cached => cached || fetch(e.request).then(resp => {
     const clone = resp.clone();
     caches.open(CACHE).then(c => c.put(e.request, clone));
