@@ -21,7 +21,7 @@ body{
   color:var(--ink);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x:hidden;
-  background: #1a6fc4;
+  background: linear-gradient(170deg, #030c04 0%, #071a09 30%, #050f06 65%, #030a04 100%);
 }
 
 .startHeader{
@@ -1520,9 +1520,27 @@ body{
   z-index: 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(180,100,0,.35), transparent 70%),
-    radial-gradient(ellipse 60% 30% at 80% 10%,  rgba(255,220,60,.28), transparent 60%),
-    linear-gradient(180deg, #1a6fc4 0%, #3a9bd5 18%, #f5d36e 55%, #e8950a 80%, #8b4300 100%);
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(180,100,0,.32), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 15% 45%,  rgba(0,80,20,.30), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 85% 45%,  rgba(0,80,20,.30), transparent 65%),
+    radial-gradient(ellipse 60% 30% at 80% 10%,  rgba(255,220,60,.22), transparent 60%),
+    linear-gradient(180deg, #071a09 0%, #0d2e10 12%, #2e7a18 28%, #5aad35 42%, #f5d36e 62%, #e8950a 80%, #8b4300 100%);
+}
+/* Copaci pădure în fundal */
+.hbg-forest-deep {
+  position: absolute; top: 8%; left: 0; right: 0;
+  font-size: 72px; text-align: center; letter-spacing: -14px;
+  opacity: 0.28; filter: blur(1px) saturate(0.5);
+}
+.hbg-forest-left {
+  position: absolute; top: 18%; left: -8px;
+  font-size: 88px; letter-spacing: -10px;
+  opacity: 0.42; filter: blur(0.5px);
+}
+.hbg-forest-right {
+  position: absolute; top: 14%; right: -8px;
+  font-size: 88px; letter-spacing: -10px;
+  opacity: 0.42; filter: blur(0.5px);
 }
 .hbg-sun {
   position: absolute; top: 14px; right: 60px;

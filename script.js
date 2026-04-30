@@ -120,6 +120,73 @@ function playBurp(ctx) {
   osc.start(); osc.stop(ctx.currentTime + 0.45);
 }
 
+// ── Muzică fundal (Web Audio API) ─────────────────────────────
+const NOTE_HZ = {
+  C3:130.81, D3:146.83, E3:164.81, G3:196.00, A3:220.00, B3:246.94,
+  C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88,
+  C5:523.25, D5:587.33, E5:659.25, G5:783.99,
+};
+
+let _musicGen  = 0;
+let _musicOscs = [];
+
+function stopBgMusic() {
+  _musicGen++;
+  _musicOscs.forEach(o => { try { o.stop(0); } catch(e) {} });
+  _musicOscs = [];
+}
+
+function playBgMusic(type) {
+  stopBgMusic();
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  if (ctx.state === "suspended") ctx.resume().catch(() => {});
+
+  const gen = _musicGen;
+
+  const SONGS = {
+    // Calm, magic, pentatonică C major (75 BPM)
+    intro: {
+      mel:  ["E4","G4","A4","C5","A4","G4","E4","C5","G4","A4","G4","E4"],
+      bass: ["C3","G3","C3","G3"],
+      dur: 0.80, vol: 0.055, bv: 0.028
+    },
+    // Upbeat, pentatonică G major (130 BPM)
+    game: {
+      mel:  ["G4","B4","D5","B4","G4","A4","B4","D5","B4","G4","E4","G4"],
+      bass: ["G3","D3","G3","D3"],
+      dur: 0.36, vol: 0.050, bv: 0.030
+    }
+  };
+
+  const s = SONGS[type] || SONGS.intro;
+
+  function sched(hz, t0, dur, vol, shape = "sine") {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.type = shape; osc.frequency.value = hz;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(vol, t0 + 0.04);
+    g.gain.setValueAtTime(vol, Math.max(t0 + 0.05, t0 + dur - 0.08));
+    g.gain.linearRampToValueAtTime(0, t0 + dur);
+    osc.start(t0); osc.stop(t0 + dur + 0.01);
+    _musicOscs.push(osc);
+  }
+
+  function loop(startAt) {
+    if (_musicGen !== gen) return;
+    const loopLen = s.mel.length * s.dur;
+    s.mel.forEach((n, i)  => sched(NOTE_HZ[n], startAt + i * s.dur,              s.dur * 0.80, s.vol));
+    const bd = loopLen / s.bass.length;
+    s.bass.forEach((n, i) => sched(NOTE_HZ[n], startAt + i * bd, bd * 0.88, s.bv, "triangle"));
+    const wait = (startAt + loopLen - ctx.currentTime - 0.5) * 1000;
+    setTimeout(() => { if (_musicGen === gen) loop(startAt + loopLen); }, Math.max(50, wait));
+  }
+
+  loop(ctx.currentTime + 0.3);
+}
+
 // ── Animatii Gicu ─────────────────────────────────────────────
 const MOODS = {
   thinking: "🦊", happy: "😄", sad: "😢",
@@ -251,12 +318,23 @@ function informationGain(questionId, scores) {
   return H - weightedH;
 }
 
+// Întrebări globale care nu au sens pentru anumite categorii
+const SKIP_GLOBAL_FOR = {
+  fruits:      new Set(["q_alive","q_human","q_famous","q_fictional","q_bigger","q_fly","q_water","q_4legs","q_male"]),
+  vegetables:  new Set(["q_alive","q_human","q_famous","q_fictional","q_bigger","q_fly","q_water","q_4legs","q_male"]),
+  objects:     new Set(["q_alive","q_human","q_famous","q_fictional","q_fly","q_4legs","q_male"]),
+  cartoons:    new Set(["q_alive","q_water","q_4legs"]),
+  superheroes: new Set(["q_alive","q_water"]),
+};
+
 function pickBestQuestion() {
   const catChars = CHARACTERS.filter(c => c.category === state.category);
+  const skipSet  = SKIP_GLOBAL_FOR[state.category] || new Set();
   const catQuestions = QUESTIONS.filter(q => {
     if (q.category !== "all" && q.category !== state.category) return false;
     if (state.asked.has(q.id)) return false;
     if (q.category === "all") {
+      if (skipSet.has(q.id)) return false;
       // Skip global questions where ALL characters in this category share the same value
       const vals = catChars.map(c => c.attributes?.[q.id] ?? 0.5);
       return vals.some(v => v !== vals[0]);
@@ -832,6 +910,7 @@ function renderLangScreen() {
     btn.addEventListener("click", () => {
       state.lang = btn.dataset.lang;
       playSound("click");
+      playBgMusic("intro");
       applyTranslations();
       renderCategoryScreen();
       showScreen("screenCategory");
@@ -875,6 +954,7 @@ function renderCategoryScreen() {
 
 // ── Start Joc ─────────────────────────────────────────────────
 function startGame() {
+  playBgMusic("game");
   state.scores         = initScores(state.category);
   state.asked          = new Set();
   state.questionCount  = 0;
@@ -994,6 +1074,7 @@ async function doGuess() {
   setAnswerButtonsEnabled(false);
   stopGooseTaunts();
 
+  stopBgMusic();
   animateFox("laughing");
   showRemark("guess", 2000);
 
@@ -1215,6 +1296,7 @@ function applyTranslations() {
 
 // ── Reset ─────────────────────────────────────────────────────
 function resetToStart() {
+  stopBgMusic();
   stopGooseTaunts();
   state = {
     ...state,
