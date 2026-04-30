@@ -171,11 +171,189 @@
           <span id="gooseTauntText"></span>
         </div>
 
-        <!-- Gicu Rapper -->
+        <!-- Gicu Portrait SVG -->
         <div class="fox-character" id="foxCharacter">
-          <div class="rapper-cap-game">🧢</div>
           <div class="gicu-img-container">
-            <img src="./gicu_real.png" class="gicu-real-img mood-thinking" id="gicuImg" alt="Gicu" />
+
+            <svg id="gicuSVG" class="gicu-portrait-svg mood-thinking"
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260"
+                 aria-label="Gicu — vulpoi expresiv cu boneta de absolvent">
+              <defs>
+                <radialGradient id="pg-face" cx="42%" cy="30%" r="62%">
+                  <stop offset="0%" stop-color="#f5920e"/>
+                  <stop offset="65%" stop-color="#d45f08"/>
+                  <stop offset="100%" stop-color="#9c3e00"/>
+                </radialGradient>
+                <radialGradient id="pg-muzzle" cx="50%" cy="28%" r="65%">
+                  <stop offset="0%" stop-color="#fff8ec"/>
+                  <stop offset="100%" stop-color="#f0cea0"/>
+                </radialGradient>
+                <radialGradient id="pg-eye" cx="28%" cy="22%" r="72%">
+                  <stop offset="0%" stop-color="#2d1800"/>
+                  <stop offset="100%" stop-color="#060200"/>
+                </radialGradient>
+                <filter id="pg-shadow" x="-15%" y="-15%" width="130%" height="130%">
+                  <feDropShadow dx="1" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.38"/>
+                </filter>
+              </defs>
+
+              <!-- NECK -->
+              <rect x="72" y="228" width="56" height="32" rx="13" fill="url(#pg-face)"/>
+
+              <!-- EARS (before head so head covers base) -->
+              <polygon points="47,106 26,26 74,78" fill="#d45f08"/>
+              <polygon points="50,102 33,38 70,75" fill="#f5a8a8"/>
+              <polygon points="153,106 174,26 126,78" fill="#d45f08"/>
+              <polygon points="150,102 167,38 130,75" fill="#f5a8a8"/>
+
+              <!-- GRADUATION CAP — mortarboard -->
+              <polygon points="100,6 182,48 100,60 18,48" fill="#141414" filter="url(#pg-shadow)"/>
+              <polygon points="100,6 182,48 162,46 100,22 38,46 18,48" fill="#252525"/>
+              <rect x="50" y="60" width="100" height="17" rx="5" fill="#0c0c0c"/>
+              <!-- Tassel button -->
+              <circle cx="180" cy="48" r="5.5" fill="#f5c518"/>
+              <!-- Tassel cord -->
+              <path d="M180,48 C190,64 187,82 180,98" stroke="#f5c518" stroke-width="2.5" fill="none"/>
+              <!-- Tassel fringe (animated separately) -->
+              <g class="pg-tassel">
+                <circle cx="180" cy="98" r="3.5" fill="#f5c518"/>
+                <line x1="180" y1="98" x2="172" y2="115" stroke="#f5c518" stroke-width="2.2"/>
+                <line x1="180" y1="98" x2="180" y2="117" stroke="#f5c518" stroke-width="2.2"/>
+                <line x1="180" y1="98" x2="188" y2="115" stroke="#f5c518" stroke-width="2.2"/>
+              </g>
+
+              <!-- HEAD -->
+              <ellipse cx="100" cy="160" rx="76" ry="80" fill="url(#pg-face)" filter="url(#pg-shadow)"/>
+
+              <!-- MUZZLE -->
+              <ellipse cx="100" cy="196" rx="44" ry="33" fill="url(#pg-muzzle)"/>
+
+              <!-- NOSE -->
+              <ellipse cx="100" cy="181" rx="10" ry="7" fill="#1c0800"/>
+              <ellipse cx="97" cy="179" rx="3.5" ry="2.5" fill="rgba(255,255,255,.32)"/>
+
+              <!-- CHEEK BLUSH -->
+              <ellipse cx="56" cy="183" rx="16" ry="10" fill="rgba(210,65,25,.20)"/>
+              <ellipse cx="144" cy="183" rx="16" ry="10" fill="rgba(210,65,25,.20)"/>
+
+              <!-- ══ EYEBROWS ══ -->
+              <g class="brow-normal">
+                <path d="M60,127 Q77,116 94,122" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <path d="M106,122 Q123,116 140,127" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              </g>
+              <g class="brow-raised">
+                <path d="M58,113 Q77,102 95,109" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <path d="M105,109 Q123,102 142,113" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              </g>
+              <g class="brow-angry">
+                <path d="M60,122 Q77,133 94,124" stroke="#1c0800" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+                <path d="M106,124 Q123,133 140,122" stroke="#1c0800" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              </g>
+              <g class="brow-sad">
+                <path d="M60,124 Q77,131 94,126" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <path d="M106,126 Q123,131 140,124" stroke="#1c0800" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              </g>
+
+              <!-- ══ EYES ══ -->
+              <!-- Thinking: slight squint, gaze up-right -->
+              <g class="eyes-thinking">
+                <ellipse cx="77" cy="152" rx="17" ry="15" fill="white"/>
+                <circle cx="79" cy="154" r="9.5" fill="url(#pg-eye)"/>
+                <circle cx="74" cy="149" r="4.5" fill="white"/>
+                <path d="M60,148 Q77,143 94,148" stroke="#d45f08" stroke-width="3" fill="none"/>
+                <ellipse cx="123" cy="152" rx="17" ry="15" fill="white"/>
+                <circle cx="121" cy="154" r="9.5" fill="url(#pg-eye)"/>
+                <circle cx="116" cy="149" r="4.5" fill="white"/>
+                <path d="M106,148 Q123,143 140,148" stroke="#d45f08" stroke-width="3" fill="none"/>
+              </g>
+              <!-- Happy: closed curve (^_^) -->
+              <g class="eyes-happy">
+                <path d="M60,153 Q77,137 94,153" stroke="#1c0800" stroke-width="5.5" fill="rgba(215,85,35,.12)" stroke-linecap="round"/>
+                <path d="M106,153 Q123,137 140,153" stroke="#1c0800" stroke-width="5.5" fill="rgba(215,85,35,.12)" stroke-linecap="round"/>
+              </g>
+              <!-- Surprised: wide open -->
+              <g class="eyes-surprised">
+                <ellipse cx="77" cy="149" rx="20" ry="20" fill="white"/>
+                <circle cx="77" cy="151" r="13" fill="url(#pg-eye)"/>
+                <circle cx="70" cy="144" r="6" fill="white"/>
+                <ellipse cx="123" cy="149" rx="20" ry="20" fill="white"/>
+                <circle cx="123" cy="151" r="13" fill="url(#pg-eye)"/>
+                <circle cx="116" cy="144" r="6" fill="white"/>
+              </g>
+              <!-- Sad: droopy + tears -->
+              <g class="eyes-sad">
+                <ellipse cx="77" cy="156" rx="16" ry="12" fill="white"/>
+                <circle cx="77" cy="158" r="8" fill="url(#pg-eye)"/>
+                <circle cx="73" cy="154" r="3.5" fill="white"/>
+                <path d="M61,155 Q77,159 93,155" stroke="#d45f08" stroke-width="3" fill="none"/>
+                <path d="M70,167 Q68,177 71,184" stroke="rgba(120,195,255,.88)" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <ellipse cx="123" cy="156" rx="16" ry="12" fill="white"/>
+                <circle cx="123" cy="158" r="8" fill="url(#pg-eye)"/>
+                <circle cx="119" cy="154" r="3.5" fill="white"/>
+                <path d="M107,155 Q123,159 139,155" stroke="#d45f08" stroke-width="3" fill="none"/>
+                <path d="M130,167 Q132,177 129,184" stroke="rgba(120,195,255,.88)" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- Angry: narrowed glare -->
+              <g class="eyes-angry">
+                <ellipse cx="77" cy="154" rx="16" ry="10" fill="white"/>
+                <circle cx="80" cy="154" r="8" fill="url(#pg-eye)"/>
+                <circle cx="76" cy="151" r="3.5" fill="white"/>
+                <path d="M61,150 Q77,144 93,150" stroke="#d45f08" stroke-width="4" fill="none"/>
+                <ellipse cx="123" cy="154" rx="16" ry="10" fill="white"/>
+                <circle cx="120" cy="154" r="8" fill="url(#pg-eye)"/>
+                <circle cx="116" cy="151" r="3.5" fill="white"/>
+                <path d="M107,150 Q123,144 139,150" stroke="#d45f08" stroke-width="4" fill="none"/>
+              </g>
+              <!-- Laughing: X eyes -->
+              <g class="eyes-laughing">
+                <line x1="61" y1="141" x2="89" y2="165" stroke="#1c0800" stroke-width="5.5" stroke-linecap="round"/>
+                <line x1="89" y1="141" x2="61" y2="165" stroke="#1c0800" stroke-width="5.5" stroke-linecap="round"/>
+                <line x1="109" y1="141" x2="137" y2="165" stroke="#1c0800" stroke-width="5.5" stroke-linecap="round"/>
+                <line x1="137" y1="141" x2="109" y2="165" stroke="#1c0800" stroke-width="5.5" stroke-linecap="round"/>
+              </g>
+
+              <!-- ══ MOUTHS ══ -->
+              <!-- Thinking: small smirk -->
+              <g class="mouth-thinking">
+                <path d="M88,207 Q100,217 112,207" stroke="#1c0800" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- Happy: wide smile + teeth -->
+              <g class="mouth-happy">
+                <path d="M76,202 Q100,229 124,202" fill="#1c0800" stroke="none"/>
+                <path d="M80,204 Q100,225 120,204" fill="#7a0d0d" stroke="none"/>
+                <rect x="82" y="202" width="36" height="10" rx="3" fill="white"/>
+              </g>
+              <!-- Surprised: open O -->
+              <g class="mouth-surprised">
+                <ellipse cx="100" cy="211" rx="18" ry="22" fill="#1c0800"/>
+                <ellipse cx="100" cy="213" rx="13" ry="17" fill="#7a0d0d"/>
+              </g>
+              <!-- Sad: downward frown -->
+              <g class="mouth-sad">
+                <path d="M82,217 Q100,201 118,217" stroke="#1c0800" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- Angry: grimace / gritted teeth -->
+              <g class="mouth-angry">
+                <rect x="77" y="202" width="46" height="14" rx="4" fill="#1c0800"/>
+                <rect x="80" y="203" width="40" height="10" rx="3" fill="white"/>
+                <line x1="88" y1="203" x2="88" y2="213" stroke="#1c0800" stroke-width="1.8"/>
+                <line x1="96" y1="203" x2="96" y2="213" stroke="#1c0800" stroke-width="1.8"/>
+                <line x1="104" y1="203" x2="104" y2="213" stroke="#1c0800" stroke-width="1.8"/>
+                <line x1="112" y1="203" x2="112" y2="213" stroke="#1c0800" stroke-width="1.8"/>
+                <path d="M80,203 Q78,209 77,216" stroke="#1c0800" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M120,203 Q122,209 123,216" stroke="#1c0800" stroke-width="2" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- Laughing: open laugh + tongue -->
+              <g class="mouth-laughing">
+                <path d="M72,200 Q100,235 128,200" fill="#1c0800" stroke="none"/>
+                <path d="M77,202 Q100,231 123,202" fill="#7a0d0d" stroke="none"/>
+                <rect x="79" y="201" width="42" height="11" rx="3" fill="white"/>
+                <rect x="83" y="218" width="34" height="8" rx="3" fill="white"/>
+                <ellipse cx="100" cy="221" rx="18" ry="9" fill="#ff5577"/>
+                <line x1="100" y1="213" x2="100" y2="228" stroke="#cc2244" stroke-width="2"/>
+              </g>
+            </svg>
+
             <div class="fox-mood-badge" id="foxFace">🤔</div>
           </div>
           <div class="rapper-chain-game">📿</div>
