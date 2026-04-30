@@ -1130,27 +1130,133 @@ body{
 .rapper-cap-game   { font-size: 56px; position: relative; top: 10px; z-index: 2; }
 .rapper-chain-game { font-size: 32px; position: relative; top: -8px; }
 
-/* Imaginea reala Gicu in joc */
+/* Containerul portretului Gicu */
 .gicu-img-container {
   position: relative;
   display: inline-block;
 }
-.gicu-real-img {
-  width: 220px;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 5px solid rgba(255,210,50,.65);
-  box-shadow: 0 12px 48px rgba(0,0,0,.6), 0 0 60px rgba(255,210,50,.22);
-  transition: filter .3s ease, transform .3s ease;
+
+/* ─── PORTRET SVG GICU ─────────────────────────────────── */
+.gicu-portrait-svg {
+  width: 200px;
+  height: 260px;
   display: block;
+  filter: drop-shadow(0 8px 28px rgba(0,0,0,.55));
+  transition: filter .35s ease;
 }
-.gicu-real-img.mood-thinking  { animation: foxThink 1.2s ease-in-out infinite alternate; }
-.gicu-real-img.mood-happy     { filter: brightness(1.12) drop-shadow(0 0 18px gold); }
-.gicu-real-img.mood-sad       { filter: grayscale(.5) brightness(.85); transform: rotate(6deg); }
-.gicu-real-img.mood-surprised { animation: foxShake .35s ease; }
-.gicu-real-img.mood-laughing  { animation: foxShake .35s infinite; filter: brightness(1.08); }
-.gicu-real-img.mood-angry     { filter: drop-shadow(0 0 14px red) saturate(1.3); transform: rotate(-6deg); }
+
+/* Ascunde toate variantele non-thinking implicit */
+.gicu-portrait-svg .brow-raised,
+.gicu-portrait-svg .brow-angry,
+.gicu-portrait-svg .brow-sad,
+.gicu-portrait-svg .eyes-happy,
+.gicu-portrait-svg .eyes-surprised,
+.gicu-portrait-svg .eyes-sad,
+.gicu-portrait-svg .eyes-angry,
+.gicu-portrait-svg .eyes-laughing,
+.gicu-portrait-svg .mouth-happy,
+.gicu-portrait-svg .mouth-surprised,
+.gicu-portrait-svg .mouth-sad,
+.gicu-portrait-svg .mouth-angry,
+.gicu-portrait-svg .mouth-laughing { display: none; }
+
+/* mood-thinking (default) */
+.gicu-portrait-svg.mood-thinking {
+  animation: pgThink 1.8s ease-in-out infinite alternate;
+}
+
+/* mood-happy */
+.gicu-portrait-svg.mood-happy .eyes-thinking  { display: none; }
+.gicu-portrait-svg.mood-happy .eyes-happy     { display: block; }
+.gicu-portrait-svg.mood-happy .mouth-thinking { display: none; }
+.gicu-portrait-svg.mood-happy .mouth-happy    { display: block; }
+.gicu-portrait-svg.mood-happy {
+  filter: drop-shadow(0 0 24px gold) drop-shadow(0 8px 28px rgba(0,0,0,.55));
+  animation: pgBounce .5s ease;
+}
+
+/* mood-surprised */
+.gicu-portrait-svg.mood-surprised .brow-normal     { display: none; }
+.gicu-portrait-svg.mood-surprised .brow-raised     { display: block; }
+.gicu-portrait-svg.mood-surprised .eyes-thinking   { display: none; }
+.gicu-portrait-svg.mood-surprised .eyes-surprised  { display: block; }
+.gicu-portrait-svg.mood-surprised .mouth-thinking  { display: none; }
+.gicu-portrait-svg.mood-surprised .mouth-surprised { display: block; }
+.gicu-portrait-svg.mood-surprised { animation: pgPop .3s ease; }
+
+/* mood-sad */
+.gicu-portrait-svg.mood-sad .brow-normal   { display: none; }
+.gicu-portrait-svg.mood-sad .brow-sad      { display: block; }
+.gicu-portrait-svg.mood-sad .eyes-thinking { display: none; }
+.gicu-portrait-svg.mood-sad .eyes-sad      { display: block; }
+.gicu-portrait-svg.mood-sad .mouth-thinking{ display: none; }
+.gicu-portrait-svg.mood-sad .mouth-sad     { display: block; }
+.gicu-portrait-svg.mood-sad {
+  filter: grayscale(.22) drop-shadow(0 8px 28px rgba(0,0,0,.55));
+  animation: pgSadSway 3s ease-in-out infinite;
+}
+
+/* mood-angry */
+.gicu-portrait-svg.mood-angry .brow-normal   { display: none; }
+.gicu-portrait-svg.mood-angry .brow-angry    { display: block; }
+.gicu-portrait-svg.mood-angry .eyes-thinking { display: none; }
+.gicu-portrait-svg.mood-angry .eyes-angry    { display: block; }
+.gicu-portrait-svg.mood-angry .mouth-thinking{ display: none; }
+.gicu-portrait-svg.mood-angry .mouth-angry   { display: block; }
+.gicu-portrait-svg.mood-angry {
+  filter: drop-shadow(0 0 20px rgba(255,45,20,.7)) drop-shadow(0 8px 28px rgba(0,0,0,.55));
+  animation: pgAngryShake .38s ease;
+}
+
+/* mood-laughing */
+.gicu-portrait-svg.mood-laughing .eyes-thinking { display: none; }
+.gicu-portrait-svg.mood-laughing .eyes-laughing  { display: block; }
+.gicu-portrait-svg.mood-laughing .mouth-thinking { display: none; }
+.gicu-portrait-svg.mood-laughing .mouth-laughing { display: block; }
+.gicu-portrait-svg.mood-laughing {
+  filter: drop-shadow(0 0 18px rgba(255,200,40,.55)) drop-shadow(0 8px 28px rgba(0,0,0,.55));
+  animation: pgWiggle .44s ease infinite;
+}
+
+/* Animatia ciucurelui de la boneta */
+.gicu-portrait-svg .pg-tassel {
+  transform-origin: 180px 98px;
+  animation: pgTassel 2.6s ease-in-out infinite;
+}
+
+@keyframes pgTassel {
+  0%, 100% { transform: rotate(-14deg); }
+  50%       { transform: rotate(14deg); }
+}
+@keyframes pgThink {
+  from { transform: rotate(-2.5deg) translateY(0); }
+  to   { transform: rotate(2.5deg) translateY(-6px); }
+}
+@keyframes pgBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.1) translateY(-8px); }
+  100% { transform: scale(1); }
+}
+@keyframes pgPop {
+  0%   { transform: scale(.87); }
+  55%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes pgSadSway {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50%       { transform: rotate(3deg) translateY(4px); }
+}
+@keyframes pgAngryShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px) rotate(-4deg); }
+  40%       { transform: translateX(8px) rotate(4deg); }
+  60%       { transform: translateX(-5px) rotate(-2deg); }
+  80%       { transform: translateX(5px) rotate(2deg); }
+}
+@keyframes pgWiggle {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50%       { transform: rotate(6deg) translateY(-4px); }
+}
 
 /* Badge emoji de emotie (colt dreapta-jos) */
 .fox-mood-badge {
