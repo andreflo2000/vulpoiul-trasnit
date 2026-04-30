@@ -133,9 +133,9 @@ function setMood(mood) {
     badge.textContent = MOODS[mood] || "🦊";
     badge.className   = "fox-mood-badge " + mood;
   }
-  // Efect CSS pe imaginea reala
-  const img = $("gicuImg");
-  if (img) img.className = `gicu-real-img mood-${mood}`;
+  // Portret SVG expresiv
+  const svg = $("gicuSVG");
+  if (svg) svg.setAttribute("class", `gicu-portrait-svg mood-${mood}`);
 }
 
 function animateFox(mood = "thinking") {
