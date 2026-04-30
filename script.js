@@ -30,9 +30,90 @@ let state = {
   gameActive:       false,
   currentQuestion:  null,
   topChar:          null,
+  topProb:          0,
   hydrationShown:   false,
   fakeGuessShown:   false,
 };
+
+// ── Streak ────────────────────────────────────────────────────
+function getStreak()     { return parseInt(localStorage.getItem("gicu_streak")      || "0"); }
+function getBestStreak() { return parseInt(localStorage.getItem("gicu_best_streak") || "0"); }
+function incrementStreak() {
+  const s = getStreak() + 1;
+  localStorage.setItem("gicu_streak", String(s));
+  if (s > getBestStreak()) localStorage.setItem("gicu_best_streak", String(s));
+  return s;
+}
+function resetStreak() { localStorage.setItem("gicu_streak", "0"); }
+
+const STREAK_LABELS = { ro:"la rând", en:"in a row", fr:"d'affilée", es:"seguidas", de:"hintereinander" };
+const RECORD_LABELS = { ro:"Record:", en:"Best:", fr:"Record:", es:"Récord:", de:"Rekord:" };
+
+function renderStreakBar() {
+  const streak = getStreak();
+  const best   = getBestStreak();
+  const bar    = $("streakBar");
+  if (!bar) return;
+  if (streak > 0 || best > 0) {
+    bar.style.display = "flex";
+    const cnt = $("streakCount"); if (cnt) cnt.textContent = streak;
+    const bst = $("streakBest");  if (bst) bst.textContent = best;
+    const lbl = $("streakLabel"); if (lbl) lbl.textContent = STREAK_LABELS[state.lang] || "la rând";
+    const rec = $("streakRec");   if (rec) rec.textContent = RECORD_LABELS[state.lang] || "Record:";
+    bar.classList.toggle("streak-bar--hot", streak >= 3);
+  } else {
+    bar.style.display = "none";
+  }
+}
+
+// ── Haptic ────────────────────────────────────────────────────
+function haptic(pat = [30]) { navigator.vibrate?.(pat); }
+
+// ── Timer joc ────────────────────────────────────────────────
+let _gameStartMs = 0;
+function fmtTime(ms) {
+  const s = Math.round(ms / 1000);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}
+
+// ── Achievements ─────────────────────────────────────────────
+const ACHS = {
+  first_win: { icon:"🎉", ro:"Prima victorie!", en:"First victory!", fr:"Première victoire!", es:"¡Primera victoria!", de:"Erster Sieg!" },
+  lightning: { icon:"⚡", ro:"Fulger! Ghicit în ≤5 întrebări", en:"Lightning! ≤5 questions", fr:"Éclair! ≤5 questions", es:"¡Rayo! ≤5 preguntas", de:"Blitz! ≤5 Fragen" },
+  perfect:   { icon:"⭐⭐⭐", ro:"Perfecțiune! 3 stele", en:"Perfection! 3 stars", fr:"Perfection! 3 étoiles", es:"¡Perfección! 3 estrellas", de:"Perfektion! 3 Sterne" },
+  streak3:   { icon:"🔥", ro:"Seria de 3! Gicu e nervos.", en:"3-streak! Gicu is annoyed.", fr:"Série de 3! Gicu est énervé.", es:"¡Serie de 3! Gicu está molesto.", de:"3er-Serie! Gicu ist genervt." },
+  streak5:   { icon:"🔥🔥", ro:"Seria de 5! Gicu vrea să evadeze MAI REPEDE.", en:"5-streak! Gicu wants out FASTER.", fr:"Série de 5! Gicu veut s'échapper.", es:"¡Serie de 5! Gicu quiere escapar.", de:"5er-Serie! Gicu will entkommen." },
+  speedrun:  { icon:"🚀", ro:"Speedrun! Sub 45 de secunde!", en:"Speedrun! Under 45 seconds!", fr:"Speedrun! Moins de 45 sec!", es:"¡Speedrun! ¡Menos de 45 seg!", de:"Speedrun! Unter 45 Sekunden!" },
+};
+
+function getUnlockedAchs() { return JSON.parse(localStorage.getItem("gicu_achs") || "[]"); }
+function unlockAch(id) {
+  const list = getUnlockedAchs();
+  if (list.includes(id)) return false;
+  list.push(id); localStorage.setItem("gicu_achs", JSON.stringify(list)); return true;
+}
+function showAchToast(id) {
+  const a = ACHS[id]; if (!a) return;
+  const div = document.createElement("div");
+  div.className = "ach-toast";
+  div.innerHTML = `<span class="ach-toast__icon">${a.icon}</span><div class="ach-toast__body"><div class="ach-toast__label">ACHIEVEMENT</div><div class="ach-toast__name">${a[state.lang] || a.ro}</div></div>`;
+  document.body.appendChild(div);
+  requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add("is-visible")));
+  setTimeout(() => { div.classList.remove("is-visible"); setTimeout(() => div.remove(), 500); }, 3500);
+}
+function checkAchievements(questionsUsed, correct, elapsedMs) {
+  const streak = getStreak();
+  const toasts = [];
+  if (correct) {
+    if (unlockAch("first_win"))                             toasts.push("first_win");
+    if (questionsUsed <= 5  && unlockAch("lightning"))      toasts.push("lightning");
+    if (questionsUsed <= 7  && unlockAch("perfect"))        toasts.push("perfect");
+    if (streak >= 3         && unlockAch("streak3"))         toasts.push("streak3");
+    if (streak >= 5         && unlockAch("streak5"))         toasts.push("streak5");
+    if (elapsedMs / 1000 <= 45 && unlockAch("speedrun"))    toasts.push("speedrun");
+  }
+  toasts.forEach((id, i) => setTimeout(() => showAchToast(id), i * 2100 + 900));
+}
 
 // ── Helpers DOM ───────────────────────────────────────────────
 const $  = id  => document.getElementById(id);
@@ -920,6 +1001,7 @@ function renderLangScreen() {
 
 // ── Ecran: Selectie Categorie ─────────────────────────────────
 function renderCategoryScreen() {
+  renderStreakBar();
   const catOrder = [
     "animals","birds","athletes","professions","artists",
     "cartoons","historical","fruits","vegetables","objects","superheroes",
@@ -955,6 +1037,7 @@ function renderCategoryScreen() {
 // ── Start Joc ─────────────────────────────────────────────────
 function startGame() {
   playBgMusic("game");
+  _gameStartMs = Date.now();
   state.scores         = initScores(state.category);
   state.asked          = new Set();
   state.questionCount  = 0;
@@ -980,6 +1063,7 @@ function nextQuestion() {
   if (topProb >= GUESS_THRESHOLD || state.questionCount >= MAX_QUESTIONS) {
     stopGooseTaunts();
     state.topChar = CHARACTERS.find(c => c.id === topId);
+    state.topProb = topProb;
     setTimeout(() => doGuess(), 600);
     return;
   }
@@ -988,6 +1072,7 @@ function nextQuestion() {
   if (!q) {
     stopGooseTaunts();
     state.topChar = CHARACTERS.find(c => c.id === topId);
+    state.topProb = topProb;
     setTimeout(() => doGuess(), 600);
     return;
   }
@@ -1037,7 +1122,9 @@ function handleAnswer(type) {
   const answerValues = { yes: 1, no: 0, unknown: 0.5, probably: 0.75 };
   const val          = answerValues[type] ?? 0.5;
   const moodMap      = { yes:"happy", no:"sad", unknown:"surprised", probably:"thinking" };
+  const hapticMap    = { yes:[40], no:[60], unknown:[20], probably:[30] };
 
+  haptic(hapticMap[type] || [30]);
   animateFox(moodMap[type] || "thinking");
   showRemark(type, 4500);
 
@@ -1119,6 +1206,7 @@ async function doGuess() {
 // ── Ecran Rezultat ────────────────────────────────────────────
 function handleCorrectGuess() {
   playSound("win");
+  haptic([100, 60, 120]);
   animateFox("happy");
   const banner = $("resultCorrectBanner");
   if (banner) banner.style.display = "flex";
@@ -1127,7 +1215,30 @@ function handleCorrectGuess() {
   const score = $("resultScoreSection");
   if (score) score.style.display = "block";
 
+  const streak    = incrementStreak();
+  const elapsed   = Date.now() - _gameStartMs;
   const stars     = calcStars(state.questionCount);
+
+  // Streak info
+  const si = $("resultStreakInfo");
+  if (si) {
+    si.style.display = "block";
+    const lbl = STREAK_LABELS[state.lang] || "la rând";
+    si.textContent = streak >= 3 ? `🔥 ${streak} ${lbl}!` : streak === 1 ? `🎯 Prima din seria curentă!` : `🔥 ${streak} ${lbl}`;
+  }
+  // Timer
+  const ti = $("resultTimerInfo");
+  if (ti) ti.textContent = `⏱ ${fmtTime(elapsed)}`;
+  // Confidence
+  const ci = $("resultConfInfo");
+  if (ci) {
+    const pct = Math.round((state.topProb || 0) * 100);
+    ci.style.display = "block";
+    ci.textContent = `Gicu' era ${pct}% sigur — și a avut dreptate! 😏`;
+  }
+
+  checkAchievements(state.questionCount, true, elapsed);
+
   const savedName = localStorage.getItem("gicu_player_name");
   if (savedName) {
     saveToLeaderboard(savedName, stars, state.questionCount);
@@ -1139,6 +1250,7 @@ function handleCorrectGuess() {
 
 function handleWrongGuess() {
   playSound("lose");
+  haptic([200]);
   animateFox("sad");
   const banner = $("resultCorrectBanner");
   if (banner) banner.style.display = "none";
@@ -1146,6 +1258,22 @@ function handleWrongGuess() {
   if (wrong) wrong.style.display = "block";
   const score = $("resultScoreSection");
   if (score) score.style.display = "none";
+
+  const elapsed = Date.now() - _gameStartMs;
+  resetStreak();
+  checkAchievements(state.questionCount, false, elapsed);
+
+  // Timer
+  const ti = $("resultTimerInfo");
+  if (ti) ti.textContent = `⏱ ${fmtTime(elapsed)}`;
+  // Confidence
+  const ci = $("resultConfInfo");
+  if (ci) {
+    const pct      = Math.round((state.topProb || 0) * 100);
+    const charName = state.topChar?.[state.lang] || state.topChar?.["en"] || "?";
+    ci.style.display = "block";
+    ci.textContent = `Gicu' era ${pct}% sigur că te gândeai la ${charName}. 😤`;
+  }
 }
 
 // ── Ecran Invatare ────────────────────────────────────────────

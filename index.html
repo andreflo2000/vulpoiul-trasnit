@@ -107,6 +107,17 @@
       <div class="gicu-taunt" id="categoryTaunt">"Gândește-te la ceva. Dacă poți. Eu aștept, n-am încotro." 😒</div>
     </div>
     <h2 class="screen-subtitle">La ce te gândești?</h2>
+
+    <!-- Streak bar -->
+    <div class="streak-bar" id="streakBar" style="display:none">
+      <span class="streak-fire">🔥</span>
+      <span id="streakCount">0</span>
+      <span id="streakLabel">la rând</span>
+      <span class="streak-sep">·</span>
+      <span id="streakRec">Record:</span>
+      <strong id="streakBest">0</strong>
+    </div>
+
     <div id="categoryCards" class="category-grid"></div>
   </div>
 </div>
@@ -439,6 +450,11 @@
       <div class="result-stars" id="resultStars">⭐⭐⭐</div>
       <div class="result-q-used" id="resultQuestionsUsed">întrebări folosite</div>
     </div>
+
+    <!-- Streak, timer, confidence — apare după confirmare -->
+    <div id="resultStreakInfo" class="result-streak-info" style="display:none"></div>
+    <div id="resultTimerInfo" class="result-timer-info"></div>
+    <div id="resultConfInfo" class="result-conf-info" style="display:none"></div>
 
     <div id="resultNameSection" style="display:none" class="result-name-section">
       <p>Pune-ți numele în topul ghicitorilor:</p>

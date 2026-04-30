@@ -1761,3 +1761,107 @@ body{
   opacity: 0.35; line-height: 1;
   filter: drop-shadow(0 -4px 16px rgba(0,180,50,.35));
 }
+
+/* ══════════════════════════════════════════════
+   STREAK BAR
+════════════════════════════════════════════════ */
+.streak-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto 14px;
+  padding: 8px 18px;
+  background: rgba(255,150,0,.12);
+  border: 1px solid rgba(255,150,0,.28);
+  border-radius: 999px;
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  transition: background .3s, transform .2s;
+}
+.streak-bar--hot {
+  background: rgba(255,80,0,.18);
+  border-color: rgba(255,120,0,.45);
+  box-shadow: 0 0 18px rgba(255,100,0,.2);
+  animation: streakPulse 2s ease-in-out infinite;
+}
+.streak-fire { font-size: 18px; }
+.streak-sep  { opacity: .45; }
+
+@keyframes streakPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.03); }
+}
+
+/* ══════════════════════════════════════════════
+   RESULT: streak / timer / confidence
+════════════════════════════════════════════════ */
+.result-streak-info {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 8px 0 4px;
+  animation: streakAppear .4s cubic-bezier(.34,1.56,.64,1);
+}
+.result-timer-info {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.result-conf-info {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 10px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,.05);
+  border-radius: 10px;
+}
+@keyframes streakAppear {
+  from { transform: scale(.6) translateY(8px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);    opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════
+   ACHIEVEMENT TOAST
+════════════════════════════════════════════════ */
+.ach-toast {
+  position: fixed;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px 12px 14px;
+  background: linear-gradient(135deg, rgba(20,10,5,.97), rgba(45,22,5,.97));
+  border: 1.5px solid var(--accent);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.65), 0 0 24px rgba(255,200,60,.18);
+  min-width: 240px;
+  max-width: min(360px, 90vw);
+  transition: top .45s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none;
+}
+.ach-toast.is-visible { top: 16px; }
+.ach-toast__icon { font-size: 30px; flex-shrink: 0; }
+.ach-toast__label {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.ach-toast__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
