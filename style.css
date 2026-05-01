@@ -1865,3 +1865,285 @@ body{
   color: var(--ink);
   line-height: 1.3;
 }
+
+/* ══════════════════════════════════════════════
+   PROBABILITY BAR
+════════════════════════════════════════════════ */
+.prob-bar-wrap {
+  margin: 10px 0 14px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.prob-bar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.prob-bar-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+}
+.prob-bar-pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 40px;
+  text-align: right;
+}
+.prob-bar-track {
+  height: 8px;
+  background: rgba(255,255,255,.10);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.prob-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3dd68c, #ffd246);
+  border-radius: 999px;
+  transition: width .6s cubic-bezier(.34,1.2,.64,1);
+  min-width: 0;
+}
+.prob-bar-wrap.prob-bar--hot .prob-bar-fill {
+  background: linear-gradient(90deg, #ff8c2e, #ffd246, #ff5c7a);
+  box-shadow: 0 0 12px rgba(255,180,0,.35);
+}
+.prob-bar-wrap.prob-bar--fire .prob-bar-fill {
+  background: linear-gradient(90deg, #ff5c7a, #ff8c2e, #ffd246);
+  animation: probPulse 1s ease-in-out infinite;
+}
+@keyframes probPulse {
+  0%,100% { opacity: 1; }
+  50%     { opacity: .75; }
+}
+
+/* ══════════════════════════════════════════════
+   BUTON GALERIE + BADGE
+════════════════════════════════════════════════ */
+.btn-gallery {
+  position: relative;
+  background: rgba(255,210,70,.12);
+  border: 1.5px solid rgba(255,210,70,.35);
+  border-radius: 12px;
+  color: var(--accent);
+  font-size: 18px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  flex-shrink: 0;
+}
+.btn-gallery:hover { background: rgba(255,210,70,.22); transform: scale(1.05); }
+.gallery-badge {
+  display: none;
+  position: absolute;
+  top: -6px; right: -6px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ══════════════════════════════════════════════
+   GALERIE MODAL
+════════════════════════════════════════════════ */
+.gallery-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.gallery-modal-overlay.is-open {
+  display: flex;
+}
+.gallery-modal-card {
+  background: rgba(12,22,14,.97);
+  border: 1.5px solid rgba(255,210,70,.25);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.7);
+  width: min(480px, 96vw);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.gallery-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 10px;
+  flex-shrink: 0;
+}
+.gallery-modal-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(16px, 4vw, 22px);
+  color: var(--accent);
+}
+.btn-close-gallery {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color .2s, background .2s;
+}
+.btn-close-gallery:hover { color: var(--ink); background: rgba(255,255,255,.1); }
+.gallery-modal-sub {
+  margin: 0 20px 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.gallery-list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 16px;
+  flex: 1;
+}
+.gallery-item {
+  display: grid;
+  grid-template-columns: 28px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.04);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,.07);
+}
+.gallery-cat  { font-size: 20px; text-align: center; }
+.gallery-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.gallery-stars{ font-size: 13px; white-space: nowrap; }
+.gallery-date { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.gallery-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px 0;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════
+   CHAR DIFFICULTY BADGE
+════════════════════════════════════════════════ */
+.char-difficulty-info {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0 10px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,.04);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.07);
+}
+
+/* ══════════════════════════════════════════════
+   BUTOANE "ACEEAȘI CATEGORIE"
+════════════════════════════════════════════════ */
+.btn--secondary {
+  background: rgba(61,214,140,.12);
+  border: 1.5px solid rgba(61,214,140,.30);
+  color: var(--good);
+}
+.btn--secondary:hover { background: rgba(61,214,140,.22); }
+
+/* ══════════════════════════════════════════════
+   COMMUNITY CONFIRM (personaje pending)
+════════════════════════════════════════════════ */
+.pending-confirm-section {
+  margin: 16px 0;
+  padding: 14px 16px;
+  background: rgba(255,210,70,.07);
+  border: 1px solid rgba(255,210,70,.20);
+  border-radius: 14px;
+}
+.pending-confirm-label {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: center;
+}
+.pending-char-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.pending-char-btn {
+  background: rgba(255,210,70,.12);
+  border: 1.5px solid rgba(255,210,70,.30);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+.pending-char-btn:hover:not(:disabled) {
+  background: rgba(255,210,70,.25);
+  transform: scale(1.04);
+}
+.pending-char-btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════
+   ATRIBUTE LEARN FORM
+════════════════════════════════════════════════ */
+.learn-attrs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 14px;
+}
+.learn-attr-group {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.learn-attr-q {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.learn-attr-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.learn-attr-btn {
+  background: rgba(255,255,255,.07);
+  border: 1.5px solid rgba(255,255,255,.15);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, transform .15s;
+}
+.learn-attr-btn:hover { background: rgba(255,255,255,.13); }
+.learn-attr-btn.is-selected {
+  background: rgba(61,214,140,.18);
+  border-color: var(--good);
+  color: var(--good);
+  font-weight: 700;
+  transform: scale(1.04);
+}

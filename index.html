@@ -86,6 +86,10 @@
     <div class="brand">
       <div class="brand__title"><img src="./gicu_mandrie.png" class="brand-gicu-img" alt="Gicu" /> Gicu' — Evadare în Curs</div>
     </div>
+    <!-- Buton galerie -->
+    <button class="btn-gallery" id="btnGallery" type="button" title="Galeria ta">
+      🏆 <span class="gallery-badge" id="galleryBadge" style="display:none">0</span>
+    </button>
     <div class="energy">
       <div class="energy__label">
         <span>Energie de Evadare</span>
@@ -152,6 +156,17 @@
       <!-- Balonul de reactie Gicu -->
       <div class="reaction" id="reactionBubble">
         <div class="reaction__text" id="reactionText">…</div>
+      </div>
+
+      <!-- Bara de probabilitate live -->
+      <div class="prob-bar-wrap" id="probBarWrap">
+        <div class="prob-bar-top">
+          <span class="prob-bar-hint" id="probHint">🤔 Gicu analizează...</span>
+          <span class="prob-bar-pct" id="probPct">0%</span>
+        </div>
+        <div class="prob-bar-track">
+          <div class="prob-bar-fill" id="probFill" style="width:0%"></div>
+        </div>
       </div>
 
       <div class="actions">
@@ -451,10 +466,11 @@
       <div class="result-q-used" id="resultQuestionsUsed">întrebări folosite</div>
     </div>
 
-    <!-- Streak, timer, confidence — apare după confirmare -->
+    <!-- Streak, timer, confidence, dificultate -->
     <div id="resultStreakInfo" class="result-streak-info" style="display:none"></div>
     <div id="resultTimerInfo" class="result-timer-info"></div>
     <div id="resultConfInfo" class="result-conf-info" style="display:none"></div>
+    <div id="charDifficultyInfo" class="char-difficulty-info" style="display:none"></div>
 
     <div id="resultNameSection" style="display:none" class="result-name-section">
       <p>Pune-ți numele în topul ghicitorilor:</p>
@@ -469,6 +485,7 @@
 
     <div class="result-actions">
       <button class="btn btn--primary btn-new-game" type="button">🔄 Joc Nou</button>
+      <button class="btn btn--secondary btn-same-cat" type="button">🔁 Aceeași categorie</button>
       <button class="btn btn-share" type="button">📤 Împărtășește</button>
       <button class="btn btn-leaderboard" type="button">🏆 Top</button>
     </div>
@@ -487,12 +504,58 @@
     <h2 class="learn-title">Gicu' n-a ghicit... Gainile rad cu lacrimi.</h2>
     <p style="text-align:center;color:var(--muted)">"Nu-i nimic, am planuri mari. Deocamdată vreau să știu la cine te-ai gândit."</p>
 
+    <!-- Secțiunea de confirmare personaje în așteptare (community voting) -->
+    <div id="pendingConfirmSection" style="display:none" class="pending-confirm-section">
+      <p class="pending-confirm-label">🗳️ Alții au propus personaje în această categorie. Le recunoști?</p>
+      <div id="pendingCharList" class="pending-char-list"></div>
+    </div>
+
     <div class="learn-form">
       <label class="learn-label">La cine te-ai gândit?</label>
       <input type="text" id="learnInput" class="text-input" placeholder="Scrie numele..." maxlength="50" />
+
+      <label class="learn-label">Link Wikipedia (opțional, ex: <em>Lion</em>):</label>
+      <input type="text" id="learnWikiInput" class="text-input" placeholder="ex: Messi sau Leo_Messi" maxlength="100" />
+
+      <label class="learn-label">Câteva caracteristici rapide:</label>
+      <div class="learn-attrs-section" id="learnAttrsSection">
+        <div class="learn-attr-group">
+          <span class="learn-attr-q">Este real (există în realitate)?</span>
+          <div class="learn-attr-btns">
+            <button class="learn-attr-btn" data-qid="q_real" data-val="1" type="button">✅ DA</button>
+            <button class="learn-attr-btn" data-qid="q_real" data-val="0" type="button">❌ NU</button>
+            <button class="learn-attr-btn" data-qid="q_real" data-val="0.5" type="button">🤷 N/A</button>
+          </div>
+        </div>
+        <div class="learn-attr-group">
+          <span class="learn-attr-q">Este om (persoană umană)?</span>
+          <div class="learn-attr-btns">
+            <button class="learn-attr-btn" data-qid="q_human" data-val="1" type="button">✅ DA</button>
+            <button class="learn-attr-btn" data-qid="q_human" data-val="0" type="button">❌ NU</button>
+            <button class="learn-attr-btn" data-qid="q_human" data-val="0.5" type="button">🤷 N/A</button>
+          </div>
+        </div>
+        <div class="learn-attr-group">
+          <span class="learn-attr-q">Poate zbura?</span>
+          <div class="learn-attr-btns">
+            <button class="learn-attr-btn" data-qid="q_fly" data-val="1" type="button">✅ DA</button>
+            <button class="learn-attr-btn" data-qid="q_fly" data-val="0" type="button">❌ NU</button>
+            <button class="learn-attr-btn" data-qid="q_fly" data-val="0.5" type="button">🤷 N/A</button>
+          </div>
+        </div>
+        <div class="learn-attr-group">
+          <span class="learn-attr-q">Este faimos / celebru?</span>
+          <div class="learn-attr-btns">
+            <button class="learn-attr-btn" data-qid="q_famous" data-val="1" type="button">✅ DA</button>
+            <button class="learn-attr-btn" data-qid="q_famous" data-val="0" type="button">❌ NU</button>
+            <button class="learn-attr-btn" data-qid="q_famous" data-val="0.5" type="button">🤷 N/A</button>
+          </div>
+        </div>
+      </div>
+
       <label class="learn-label">O întrebare care îl diferențiază de <strong id="learnDiffFrom">—</strong>:</label>
       <input type="text" id="learnQuestionInput" class="text-input" placeholder="ex: Are aripi?" maxlength="100" />
-      <button class="btn btn--primary" id="btnLearnSave" type="button">🧠 SALVEAZĂ</button>
+      <button class="btn btn--primary" id="btnLearnSave" type="button">🧠 SALVEAZĂ — Gicu Vrea Să Știe!</button>
     </div>
 
     <div id="learnThanksMsg" style="display:none" class="learn-thanks">
@@ -511,6 +574,20 @@
     <p id="leaderboardLoading" style="display:none;text-align:center;color:var(--muted)">Se încarcă...</p>
     <div id="leaderboardList" class="leaderboard-list"></div>
     <button class="btn btn--ghost" id="btnLeaderboardBack" type="button">← Înapoi</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MODAL: GALERIE PERSONALĂ
+════════════════════════════════════════════════ -->
+<div id="galleryModal" class="gallery-modal-overlay">
+  <div class="gallery-modal-card">
+    <div class="gallery-modal-header">
+      <h2 class="gallery-modal-title">🏆 Galeria Ta de Victorii</h2>
+      <button class="btn-close-gallery" id="btnCloseGallery" type="button" aria-label="Închide">✕</button>
+    </div>
+    <p class="gallery-modal-sub">Personajele ghicite de Gicu' cu ajutorul tău:</p>
+    <div id="galleryList" class="gallery-list"></div>
   </div>
 </div>
 
